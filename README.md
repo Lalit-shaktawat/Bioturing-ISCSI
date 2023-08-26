@@ -213,3 +213,61 @@ mount -t xfs -o nouuid /dev/sdi /mnt/ssd
 ```R
 ============================
 ```
+
+:o: **Server Config**
+
+```R
+root@nas:/etc/iscsi# pwd
+/etc/iscsi
+root@nas:/etc/iscsi# cat iscsid.conf | grep -iv "#"
+
+iscsid.startup = /bin/systemctl start iscsid.socket
+
+node.startup = automatic
+node.leading_login = No
+node.session.auth.authmethod = CHAP
+node.session.auth.username = bioturing
+node.session.auth.password = nasB2050
+node.session.timeo.replacement_timeout = 120
+node.conn[0].timeo.login_timeout = 15
+node.conn[0].timeo.logout_timeout = 15
+node.conn[0].timeo.noop_out_interval = 5
+node.conn[0].timeo.noop_out_timeout = 5
+node.session.err_timeo.abort_timeout = 15
+node.session.err_timeo.lu_reset_timeout = 30
+node.session.err_timeo.tgt_reset_timeout = 30
+node.session.initial_login_retry_max = 8
+node.session.cmds_max = 128
+node.session.queue_depth = 32
+node.session.xmit_thread_priority = -20
+node.session.iscsi.InitialR2T = No
+node.session.iscsi.ImmediateData = Yes
+node.session.iscsi.FirstBurstLength = 262144
+node.session.iscsi.MaxBurstLength = 16776192
+node.conn[0].iscsi.MaxRecvDataSegmentLength = 262144
+node.conn[0].iscsi.MaxXmitDataSegmentLength = 0
+discovery.sendtargets.iscsi.MaxRecvDataSegmentLength = 32768
+node.session.nr_sessions = 1
+node.session.reopen_max = 0
+node.session.iscsi.FastAbort = Yes
+
+
+node.session.scan = auto
+root@nas:/etc/iscsi#
+
+root@nas:/etc/tgt/conf.d# pwd
+/etc/tgt/conf.d
+root@nas:/etc/tgt/conf.d# ls
+md2.conf  md3.conf  md4.conf
+root@nas:/etc/tgt/conf.d#
+root@nas:/etc/tgt/conf.d# cat md2.conf 
+<target iqn.2023-05.bioturing.com:md2>
+     # Provided device as an iSCSI target
+     backing-store /dev/md2
+     initiator-address 192.168.0.20
+     #initiator-name iqn.2023-05.bioturing.com:nas.md2
+     incominguser bioturing nasB2050
+     #outgoinguser bioturing nasB2050
+</target>
+root@nas:/etc/tgt/conf.d#
+```
