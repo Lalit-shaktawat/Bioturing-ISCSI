@@ -1,11 +1,13 @@
 :o: **iSCSI – NAS**
 
 :link:[Tutorial](https://www.howtoforge.com/tutorial/how-to-setup-iscsi-storage-server-on-ubuntu-2004-lts/)
+
 :link:[Tutorial](https://manpages.ubuntu.com/manpages/xenial/man8/tgtadm.8.html)
 
 :o: **Installation:**
 
 :one: **Target:** Server there all disks ready to mount to initiator Server virtually.
+
 :two: **Initiator:** Server will communicate with target.
 
 :arrow_right: **Install iSCSI Target**
@@ -144,7 +146,7 @@ iscsiadm -m session
 iscsiadm -m session -o show
 
 ```
-:arror_right: **Check virtual disk.**
+:arrow_right: **Check virtual disk.**
 
 ```R
 Disk /dev/sda: 1 GiB, 1073741824 bytes, 2097152 sectors
